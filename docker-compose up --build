@@ -1,0 +1,11 @@
+3. Backend at `http://localhost:8000`, docs at `/docs`.
+
+## Environment
+- `JWT_SECRET` — required in production.
+- `STRIPE_SECRET_KEY` — required for payments.
+- `DATABASE_URL` — defaults to SQLite for dev; Compose sets Postgres.
+
+## Notes
+- For production, restrict CORS, enforce unique user identities, and separate host/cleaner user stores.
+- Replace the `analyze_images` stub with a real vision API when ready.
+- Integrate FCM/Twilio in `notify_cleaners`.
