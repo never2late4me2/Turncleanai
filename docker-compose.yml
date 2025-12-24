@@ -1,0 +1,29 @@
+version: "3.9"
+
+services:
+  db:
+    image: postgres:16
+    container_name: turnai-db
+    restart: always
+    environment:
+      POSTGRES_USER: turnai
+      POSTGRES_PASSWORD: turnai_pass
+      POSTGRES_DB: turnai_clean
+    volumes:
+      - ./pgdata:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+  backend:
+    build: .
+    container_name: turnai-backend
+    restart: always
+    depends_on:
+      - db
+    environment:
+      STRIPE_SECRET_KEY: ${STRIPE_SECRET_KEY}
+      JWT_SECRET: ${JWT_SECRET}
+      ACCESS_TOKEN_EXPIRE_MINUTES: "60"
+      DATABASE_URL: postgresql+psycopg2://turnai:turnai_pass@db:5432/turnai_clean
+    ports:
+      - "8000:8000"
